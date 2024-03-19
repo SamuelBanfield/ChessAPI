@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: "1"
+      author:  sam
+      changes:
+       - createTable:
+            tableName:  game
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey:  true
+                    nullable:  false
+              - column:
+                  name: white_player
+                  type: varchar(50)
+                  constraints:
+                    nullable:  false
+              - column:
+                  name: black_player
+                  type: varchar(50)
+                  constraints:
+                    nullable:  false
