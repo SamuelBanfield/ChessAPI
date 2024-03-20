@@ -20,6 +20,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.postgresql:postgresql")
 	implementation("org.liquibase:liquibase-core")
+	implementation("com.google.guava:guava:33.1.0-jre")
+	
+	testImplementation("junit:junit:4.13.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
