@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sam.chess.client.chessdotcom.ChessDotComClient;
@@ -30,13 +31,15 @@ public class ChessApplication {
 	private ChessDotComClient _chessDotComClient;
 
 
-	@RequestMapping(path = "/games/lichess/${userName}/", method = GET)
-	public List<ChessGame> getLichessGames(@PathVariable String userName) {
+	@RequestMapping(path = "/games/lichess/{userName}/", method = GET)
+	@ResponseBody
+	public List<ChessGame> getLichessGames(@PathVariable("userName") final String userName) {
 		return _lichessClient.getGames(userName);
 	}
 
-	@RequestMapping(path = "/games/chessdotcom/${userName}/", method = GET)
-	public List<ChessGame> getChessDotComGames(@PathVariable String userName) {
+	@RequestMapping(path = "/games/chessdotcom/{userName}/", method = GET)
+	@ResponseBody
+	public List<ChessGame> getChessDotComGames(@PathVariable("userName") final String userName) {
 		try {
 			return _chessDotComClient.getGames(userName);
 		} 
@@ -44,6 +47,11 @@ public class ChessApplication {
 			e.printStackTrace();
 			return List.of();
 		}
+	}
+
+	@RequestMapping(path = "/status", method = GET)
+	public String status() {
+		return "OK";
 	}
 
 }

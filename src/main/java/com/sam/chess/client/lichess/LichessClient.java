@@ -12,7 +12,6 @@ import com.sam.chess.model.ChessGame;
 
 import chariot.Client;
 import chariot.model.Game;
-import chariot.model.Pgn;
 
 /**
  * Wrapper around client for lichess API.
