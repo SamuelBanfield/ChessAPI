@@ -31,13 +31,13 @@ public class ChessApplication {
 	private ChessDotComClient _chessDotComClient;
 
 
-	@RequestMapping(path = "/games/lichess/{userName}/", method = GET)
+	@RequestMapping(path = "/games/lichess/{userName}", method = GET)
 	@ResponseBody
 	public List<ChessGame> getLichessGames(@PathVariable("userName") final String userName) {
 		return _lichessClient.getGames(userName);
 	}
 
-	@RequestMapping(path = "/games/chessdotcom/{userName}/", method = GET)
+	@RequestMapping(path = "/games/chessdotcom/{userName}", method = GET)
 	@ResponseBody
 	public List<ChessGame> getChessDotComGames(@PathVariable("userName") final String userName) {
 		try {
