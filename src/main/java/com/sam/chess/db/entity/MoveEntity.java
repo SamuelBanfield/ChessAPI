@@ -46,4 +46,20 @@ public class MoveEntity {
       entity._occurrences = 1;
       return entity;
     }
+
+    public String start() {
+      return start;
+    }
+
+    public String end() {
+      return end;
+    }
+
+    public String name() {
+      return _name;
+    }
+
+    public int occurrences() {
+      return _occurrences;
+    }
 }
