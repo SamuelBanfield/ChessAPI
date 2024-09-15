@@ -14,8 +14,8 @@ public class TestLichessClient {
     private LichessClient _lichessClient;
 
     @Test
-    public void testLichessClient() {
-        System.out.println(_lichessClient.getGames("samjban"));
+    void testLichessClient() {
+      System.out.println(_lichessClient.getGames("samjban"));
     }
 
 }

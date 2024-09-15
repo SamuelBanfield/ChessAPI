@@ -2,12 +2,12 @@ package com.sam.chess.db.entity;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.sam.chess.model.ModelMove;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 /**
  * A move in a game of chess.
@@ -20,25 +20,30 @@ public class MoveEntity {
     @Column(name = "id")
     private Long _id;
 
-    @Column(name = "number")
-    private int _number;
+    @Column(name = "start_fen")
+    private String start;
+
+    @Column(name = "end_fen")
+    private String end;
 
     @Column(name = "name")
     private String _name;
 
-    @ManyToOne
-    @JoinColumn(name = "game_id")
-    private GameEntity _game;
+    @Column(name = "occurrences")
+    private int _occurrences;
+
+    public void addOccurrence() {
+      _occurrences++;
+    }
 
     public MoveEntity() {}
 
-    public MoveEntity(final GameEntity game, final int number, final String name) {
-        _game = game;
-        _number = number;
-        _name = name;
-    }
-
-    public GameEntity getGame() {
-        return _game;
+    public static MoveEntity create(final ModelMove move) {
+      MoveEntity entity = new MoveEntity();
+      entity.start = move.startingFEN();
+      entity.end = move.endingFEN();
+      entity._name = move.move();
+      entity._occurrences = 1;
+      return entity;
     }
 }

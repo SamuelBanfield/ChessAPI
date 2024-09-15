@@ -4,26 +4,6 @@ databaseChangeLog:
       author:  sam
       changes:
         - createTable:
-            tableName: game
-            columns:
-              - column:
-                  name: id
-                  type: int
-                  autoIncrement: true
-                  constraints:
-                     primaryKey: true
-                     nullable: false
-              - column:
-                  name: white_player
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: black_player
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-        - createTable:
             tableName: move
             columns:
               - column:
@@ -34,23 +14,26 @@ databaseChangeLog:
                      primaryKey: true
                      nullable: false
               - column:
-                  name: game_id
-                  type: int
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_game_id
-                    references: game(id)
-              - column:
                   name: name
-                  type: varchar(6)
+                  type: varchar
                   constraints:
                     nullable: false
               - column:
-                  name: number
+                  name: start_fen
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_fen
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: occurrences
                   type: int
                   constraints:
                     nullable: false
         - addUniqueConstraint:
             tableName: move
-            columnNames: game_id, number
-            constraintName: uc_game_id_move_number
+            columnNames: start_fen, end_fen
+            constraintName: uc_start_end

@@ -1,7 +1,9 @@
 package com.sam.chess;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sam.chess.client.chessdotcom.ChessDotComClient;
 import com.sam.chess.client.lichess.LichessClient;
-import com.sam.chess.model.ChessGame;
+import com.sam.chess.model.ModelGame;
+import com.sam.chess.shredder.Shredder;
 
 @SpringBootApplication
 @RestController
@@ -30,23 +33,29 @@ public class ChessApplication {
 	@Autowired
 	private ChessDotComClient _chessDotComClient;
 
+  @Autowired
+  private Shredder _shredder;
 
 	@RequestMapping(path = "/games/lichess/{userName}", method = GET)
 	@ResponseBody
-	public List<ChessGame> getLichessGames(@PathVariable("userName") final String userName) {
+	public List<ModelGame> getLichessGames(@PathVariable("userName") final String userName) {
 		return _lichessClient.getGames(userName);
 	}
 
 	@RequestMapping(path = "/games/chessdotcom/{userName}", method = GET)
 	@ResponseBody
-	public List<ChessGame> getChessDotComGames(@PathVariable("userName") final String userName) {
-		try {
-			return _chessDotComClient.getGames(userName);
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-			return List.of();
-		}
+	public List<ModelGame> getChessDotComGames(@PathVariable("userName") final String userName) throws IOException, InterruptedException {
+		return _chessDotComClient.getGames(userName);
+	}
+
+	@RequestMapping(path = "/games/lichess/{userName}/import", method = POST)
+	public int importLichessGames(@PathVariable("userName") final String userName) {
+		return _shredder.shred(_lichessClient.getGames(userName));
+	}
+
+	@RequestMapping(path = "/games/chessdotcom/{userName}/import", method = POST)
+	public int importChessDotComGames(@PathVariable("userName") final String userName) throws IOException, InterruptedException {
+		return _shredder.shred(_chessDotComClient.getGames(userName));
 	}
 
 	@RequestMapping(path = "/status", method = GET)

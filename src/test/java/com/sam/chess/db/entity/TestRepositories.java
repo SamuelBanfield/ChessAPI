@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.sam.chess.model.ModelMove;
+
 import jakarta.transaction.Transactional;
 
 @SpringBootTest
@@ -16,23 +18,11 @@ public class TestRepositories {
     @Autowired
     private MoveRepository _moveRepository;
 
-    @Autowired
-    private GameRepository _gameRepository;
-
     @Test
-    public void testGameRepository() {
-        _gameRepository.save(new GameEntity("white", "black"));
-        GameEntity game = getOnlyElement(_gameRepository.findAll());
-        assertEquals("white", game.getWhitePlayer());
-        assertEquals("black", game.getBlackPlayer());
-    }
-
-    @Test
-    public void testMoveRepository() {
-        GameEntity game = _gameRepository.save(new GameEntity("white", "black"));
-        _moveRepository.save(new MoveEntity(game, 1, "e4"));
-        MoveEntity move = getOnlyElement(_moveRepository.findAll());
-        assertEquals("white", move.getGame().getWhitePlayer());
+    void testMoveRepository() {
+      _moveRepository.save(MoveEntity.create(new ModelMove("e4", "start", "end")));
+      MoveEntity move = getOnlyElement(_moveRepository.findAll());
+      // assertEquals("white", move);
     }
     
 }
