@@ -29,7 +29,17 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: occurrences
+                  name: wins
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: losses
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: draws
                   type: int
                   constraints:
                     nullable: false

@@ -2,5 +2,8 @@ package com.sam.chess.model;
 
 import java.util.List;
 
-public record ModelGame(String whitePlayer, String blackPlayer, List<ModelMove> moves) {
+/**
+ * A game of chess.
+ */
+public record ModelGame(String whitePlayer, String blackPlayer, GameResult result, List<ModelMove> moves) {
 }

@@ -1,5 +1,9 @@
 package com.sam.chess.client.lichess;
 
+import static com.sam.chess.model.GameResult.BLACK_WIN;
+import static com.sam.chess.model.GameResult.DRAW;
+import static com.sam.chess.model.GameResult.WHITE_WIN;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import com.sam.chess.client.ChessClient;
+import com.sam.chess.model.GameResult;
 import com.sam.chess.model.ModelGame;
 import com.sam.chess.model.ModelMove;
 
@@ -48,6 +53,7 @@ public class LichessClient implements ChessClient {
     return new ModelGame(
       game.players().white().name(),
       game.players().black().name(),
+      result(game),
       movesFromPGN(game.moves()));
   }
 
@@ -62,6 +68,14 @@ public class LichessClient implements ChessClient {
       modelMoves.add(new ModelMove(move, startingFEN, endingFEN));
     }
     return modelMoves;
+  }
+
+  private GameResult result(final Game game) {
+    return switch (game.winner()) {
+      case white -> WHITE_WIN;
+      case black -> BLACK_WIN;
+      case null -> DRAW;
+    };
   }
 
 }

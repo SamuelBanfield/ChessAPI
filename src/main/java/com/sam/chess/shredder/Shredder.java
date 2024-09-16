@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.sam.chess.db.entity.MoveEntity;
 import com.sam.chess.db.entity.MoveRepository;
+import com.sam.chess.model.GameResult;
 import com.sam.chess.model.ModelGame;
 import com.sam.chess.model.ModelMove;
 
@@ -18,17 +19,17 @@ public class Shredder {
 
   public int shred(final Collection<ModelGame> games) {
     games.forEach(game -> {
-      _moveRepository.saveAll(game.moves().stream().map(this::createOrUpdate).toList());
+      _moveRepository.saveAll(game.moves().stream().map(move -> createOrUpdate(move, game.result())).toList());
     });
     return games.size();
   }
 
-  MoveEntity createOrUpdate(final ModelMove move) {
+  MoveEntity createOrUpdate(final ModelMove move, final GameResult result) {
     return _moveRepository.findOneByStartAndEnd(move.startingFEN(), move.endingFEN())
       .map(entity -> {
-        entity.addOccurrence();
+        entity.addResult(result);
         return entity;
       })
-      .orElse(MoveEntity.create(move));
+      .orElse(MoveEntity.create(move, result));
   }
 }

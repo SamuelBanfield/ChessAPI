@@ -77,11 +77,11 @@ public class ChessApplication {
     }
     return _moveRepository.findAllByStartLike(matcher.group() + "%")
       .stream()
-      .map(move -> new MoveWithFrequency(new ModelMove(move.name(), move.start(), move.end()), move.occurrences()))
+      .map(move -> new MoveWithFrequency(new ModelMove(move.name(), move.start(), move.end()), move.whiteWins(), move.draws(), move.blackWins()))
       .toList();    
   }
 
-  record MoveWithFrequency(ModelMove move, int frequency) {}
+  record MoveWithFrequency(ModelMove move, int whiteWins, int draws, int blackWins) {}
 
 	@RequestMapping(path = "/status", method = GET)
 	public String status() {

@@ -1,6 +1,7 @@
 package com.sam.chess.db.entity;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.sam.chess.model.GameResult.WHITE_WIN;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class TestRepositories {
 
     @Test
     void testMoveRepository() {
-      _moveRepository.save(MoveEntity.create(new ModelMove("e4", "start", "end")));
+      _moveRepository.save(MoveEntity.create(new ModelMove("e4", "start", "end"), WHITE_WIN));
       MoveEntity move = getOnlyElement(_moveRepository.findAll());
       // assertEquals("white", move);
     }
