@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.checkerframework.checker.units.qual.s;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -55,17 +56,23 @@ public class ChessApplication {
 	@RequestMapping(path = "/games/chessdotcom/{userName}", method = GET)
 	@ResponseBody
 	public List<ModelGame> getChessDotComGames(@PathVariable("userName") final String userName) throws IOException, InterruptedException {
-		return _chessDotComClient.getGames(userName);
+    return _chessDotComClient.getGames(userName);
 	}
 
 	@RequestMapping(path = "/games/lichess/{userName}/import", method = POST)
 	public int importLichessGames(@PathVariable("userName") final String userName) {
-		return _shredder.shred(_lichessClient.getGames(userName));
+    System.out.println("Importing lichess games for user " + userName);
+		int total = _shredder.shred(_lichessClient.getGames(userName));
+    System.out.println("Imported " + total + " games for user" + userName);
+    return total;
 	}
 
 	@RequestMapping(path = "/games/chessdotcom/{userName}/import", method = POST)
 	public int importChessDotComGames(@PathVariable("userName") final String userName) throws IOException, InterruptedException {
-		return _shredder.shred(_chessDotComClient.getGames(userName));
+		System.out.println("Importing chess.com games for user " + userName);
+    int total = _shredder.shred(_chessDotComClient.getGames(userName));
+    System.out.println("Imported " + total + " games for user" + userName);
+    return total;
 	}
 
   @RequestMapping(path = "/games", method = GET)
