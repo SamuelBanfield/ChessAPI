@@ -31,7 +31,7 @@ public class ChessDotComClient implements ChessClient {
 
   private final ChessDotComHTTPClient _client;
 
-  private final PGNImporter _pgnImporter = new PGNImporter();
+  private final PGNImporter _pgnImporter;
 
   private final ObjectMapper _objectMapper = new ObjectMapper()
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -39,6 +39,9 @@ public class ChessDotComClient implements ChessClient {
   @Autowired
   public ChessDotComClient(final ChessDotComHTTPClient client) {
     _client = client;
+    _pgnImporter = new PGNImporter();
+    _pgnImporter.setOnError(System.out::println);
+    _pgnImporter.setOnWarning(System.out::println);
   }
 
   @Override

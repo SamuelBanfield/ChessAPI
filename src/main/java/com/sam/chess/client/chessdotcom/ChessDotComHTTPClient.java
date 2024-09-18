@@ -21,7 +21,11 @@ public class ChessDotComHTTPClient {
     }
 
     public HttpResponse<String> getGamesFromArchive(final String archiveURL) throws IOException, InterruptedException {
-        return get(archiveURL);
+        HttpResponse<String> response = get(archiveURL);
+        if (response.statusCode() != 200) {
+            throw new IOException("Failed to get games from archive: " + response.body());
+        }
+        return response;
     }
 
     private HttpResponse<String> get(final String url) throws IOException, InterruptedException {
