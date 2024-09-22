@@ -26,7 +26,6 @@ import com.sam.chess.client.lichess.LichessClient;
 import com.sam.chess.db.entity.GameMoveEntity;
 import com.sam.chess.db.entity.GameMoveRepository;
 import com.sam.chess.db.entity.MoveEntity;
-import com.sam.chess.db.entity.MoveRepository;
 import com.sam.chess.model.Colour;
 import com.sam.chess.model.GameResult;
 import com.sam.chess.model.ModelGame;

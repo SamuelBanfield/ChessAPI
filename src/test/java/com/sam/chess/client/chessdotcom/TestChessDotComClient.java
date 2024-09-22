@@ -30,6 +30,7 @@ public class TestChessDotComClient {
     @Autowired
     private ChessDotComClient _chessDotComClient;
 
+    @SuppressWarnings("unchecked")
     @Test
     void testChessDotComClient() throws IOException, InterruptedException {
         HttpResponse<String> archivesResponse = mock(HttpResponse.class);

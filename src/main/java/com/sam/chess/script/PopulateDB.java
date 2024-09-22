@@ -1,10 +1,8 @@
 package com.sam.chess.script;
 
-import org.apache.logging.log4j.util.Timer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.sam.chess.ChessApplication;

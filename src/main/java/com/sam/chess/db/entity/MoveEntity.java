@@ -2,7 +2,6 @@ package com.sam.chess.db.entity;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import com.sam.chess.model.GameResult;
 import com.sam.chess.model.ModelMove;
 
 import jakarta.persistence.Column;

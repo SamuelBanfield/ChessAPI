@@ -1,8 +1,5 @@
 package com.sam.chess.client.chessdotcom;
 
-import static com.sam.chess.model.GameResult.BLACK_WIN;
-import static com.sam.chess.model.GameResult.DRAW;
-import static com.sam.chess.model.GameResult.WHITE_WIN;
 import static com.sam.chess.model.GameResult.fromString;
 
 import java.io.ByteArrayInputStream;
