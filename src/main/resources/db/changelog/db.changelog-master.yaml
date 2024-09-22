@@ -28,21 +28,6 @@ databaseChangeLog:
                   type: varchar
                   constraints:
                     nullable: false
-              - column:
-                  name: white_wins
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: black_wins
-                  type: int
-                  constraints:
-                    nullable: false
-              - column:
-                  name: draws
-                  type: int
-                  constraints:
-                    nullable: false
         - addUniqueConstraint:
             tableName: move
             columnNames: start_fen, end_fen
@@ -69,6 +54,11 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: result
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: site
                   type: varchar
                   constraints:
                     nullable: false

@@ -2,6 +2,9 @@ package com.sam.chess.db.entity;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.sam.chess.model.GameResult;
+import com.sam.chess.model.Source.Site;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,19 +25,27 @@ public class GameEntity {
   private String _blackPlayer;
 
   @Column(name = "result")
-  private String _result;
+  private GameResult _result;
 
   // Underscore missing for JPARepository compatibility
+  // Uniquely identifies this game to prevent reimporting
   @Column(name = "source")
   private String source;
 
-  public static GameEntity create(final String whitePlayer, final String blackPlayer, final String result, final String source) {
+  @Column(name = "site")
+  private Site _site;
+
+  public static GameEntity create(final String whitePlayer, final String blackPlayer, final GameResult result, final String source) {
     GameEntity entity = new GameEntity();
     entity._whitePlayer = whitePlayer;
     entity._blackPlayer = blackPlayer;
     entity._result = result;
     entity.source = source;
     return entity;
+  }
+
+  public GameResult getResult() {
+    return _result;
   }
 
 }
