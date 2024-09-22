@@ -86,7 +86,7 @@ public class ChessDotComClient implements ChessClient {
       }
     });
     _pgnImporter.run(new ByteArrayInputStream(game.pgn().getBytes(StandardCharsets.UTF_8)));
-    return new ModelGame(game.white().username(), game.black().username(), result[0], modelMoves);
+    return new ModelGame(game.white().username(), game.black().username(), result[0], modelMoves, game.url());
   }
 
 }

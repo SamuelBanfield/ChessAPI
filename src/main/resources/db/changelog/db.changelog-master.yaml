@@ -47,3 +47,34 @@ databaseChangeLog:
             tableName: move
             columnNames: start_fen, end_fen
             constraintName: uc_start_end
+        - createTable:
+            tableName: game
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: white_player
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: black_player
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: result
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true

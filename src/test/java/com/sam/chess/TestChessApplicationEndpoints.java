@@ -15,29 +15,19 @@ import com.sam.chess.model.ModelGame;
 @SpringBootTest
 public class TestChessApplicationEndpoints {
 
-    @Autowired
-    private ChessApplication _chessApplication;
+  @Autowired
+  private ChessApplication _chessApplication;
 
-    @Test
-    void testLichessEndpoint() {
-        List<ModelGame> lichessGames = _chessApplication.getLichessGames("samjban");
-        assertFalse(lichessGames.isEmpty());
-    }
+  @Test
+  void testLichessImport() throws Exception {
+    assertTrue(_chessApplication.importLichessGames("samjban") > 0);
+    assertTrue(_chessApplication.importLichessGames("samjban") == 0);
+  }
 
-    @Test
-    void testChessDotComEndpoint() throws IOException, InterruptedException {
-        List<ModelGame> chessDotComGames = _chessApplication.getChessDotComGames("tfdethh");
-        assertFalse(chessDotComGames.isEmpty());
-    }
-
-    @Test
-    void testLichessImport() throws Exception {
-      assertTrue(_chessApplication.importLichessGames("samjban") > 0);
-    }
-
-    @Test
-    void testChessDotComImport() throws Exception {
-      assertTrue(_chessApplication.importChessDotComGames("tfdethh") > 0);
-    }
+  @Test
+  void testChessDotComImport() throws Exception {
+    assertTrue(_chessApplication.importChessDotComGames("tfdethh") > 0);
+    assertTrue(_chessApplication.importChessDotComGames("tfdethh") == 0);
+  }
 
 }

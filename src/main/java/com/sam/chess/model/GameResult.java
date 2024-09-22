@@ -4,16 +4,27 @@ package com.sam.chess.model;
  * The result of a game.
  */
 public enum GameResult {
-  WHITE_WIN,
-  DRAW,
-  BLACK_WIN;
+  WHITE_WIN("1-0"),
+  DRAW("1/2-1/2"),
+  BLACK_WIN("0-1");
+
+  private final String _result;
+
+  @Override
+  public String toString() {
+    return _result;
+  }
+
+  GameResult(final String result) {
+    _result = result;
+  }
 
   public static GameResult fromString(final String result) {
-    return switch (result) {
-      case "1-0" -> WHITE_WIN;
-      case "1/2-1/2" -> DRAW;
-      case "0-1" -> BLACK_WIN;
-      default -> throw new IllegalArgumentException("Unknown result: " + result);
-    };
+    for (GameResult gameResult : GameResult.values()) {
+      if (gameResult._result.equals(result)) {
+        return gameResult;
+      }
+    }
+    throw new IllegalArgumentException("Unknown result: " + result);
   }
 }

@@ -20,10 +20,11 @@ public class TestRepositories {
     private MoveRepository _moveRepository;
 
     @Test
-    void testMoveRepository() {
+    void testReadAndWrite() {
       _moveRepository.save(MoveEntity.create(new ModelMove("e4", "start", "end"), WHITE_WIN));
-      MoveEntity move = getOnlyElement(_moveRepository.findAll());
-      // assertEquals("white", move);
+      MoveEntity move = getOnlyElement(_moveRepository.findAll().stream().filter(m -> m.start().equals("start")).toList());
+      assertEquals("e4", move.name());
+      assertEquals(1, move.whiteWins());
     }
     
 }

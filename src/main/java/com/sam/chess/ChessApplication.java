@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.checkerframework.checker.units.qual.s;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -63,7 +62,7 @@ public class ChessApplication {
 	public int importLichessGames(@PathVariable("userName") final String userName) {
     System.out.println("Importing lichess games for user " + userName);
 		int total = _shredder.shred(_lichessClient.getGames(userName));
-    System.out.println("Imported " + total + " games for user" + userName);
+    System.out.println("Imported " + total + " games for user " + userName);
     return total;
 	}
 
@@ -71,7 +70,7 @@ public class ChessApplication {
 	public int importChessDotComGames(@PathVariable("userName") final String userName) throws IOException, InterruptedException {
 		System.out.println("Importing chess.com games for user " + userName);
     int total = _shredder.shred(_chessDotComClient.getGames(userName));
-    System.out.println("Imported " + total + " games for user" + userName);
+    System.out.println("Imported " + total + " games for user " + userName);
     return total;
 	}
 

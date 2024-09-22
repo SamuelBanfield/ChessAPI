@@ -4,7 +4,7 @@ import java.util.List;
 
 public record ArchiveResponse(List<GameResponse> games) {
 
-    public record GameResponse(PlayerResponse white, PlayerResponse black, String pgn) {
+    public record GameResponse(PlayerResponse white, PlayerResponse black, String pgn, String url) {
 
         public record PlayerResponse(String username, int rating) {
         }

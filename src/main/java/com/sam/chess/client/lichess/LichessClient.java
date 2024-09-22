@@ -54,7 +54,8 @@ public class LichessClient implements ChessClient {
       game.players().white().name(),
       game.players().black().name(),
       result(game),
-      movesFromPGN(game.moves()));
+      movesFromPGN(game.moves()),
+      "lichess: " + game.id());
   }
 
   private List<ModelMove> movesFromPGN(final String movesString) {
