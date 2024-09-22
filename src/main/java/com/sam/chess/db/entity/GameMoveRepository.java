@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 import com.sam.chess.model.Colour;
 import com.sam.chess.model.Source;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Repository for moves.
@@ -27,16 +29,16 @@ public interface GameMoveRepository extends JpaSpecificationExecutor<GameMoveEnt
    */
   public static Specification<GameMoveEntity> matchesSource(final List<Source> sources, final Colour colour) {
     return (root, query, cb) -> 
-      cb.or(sources.stream().map(source -> matchesSource(source, colour)).toArray(Predicate[]::new));
+      cb.or(sources.stream().map(source -> matchesSource(root, cb, source, colour)).toList().toArray(new Predicate[] {}));
   }
 
   /**
    * @return Matches this source for this colour.
    */
-  public static Specification<GameMoveEntity> matchesSource(final Source source, final Colour colour) {
-    return (root, query, cb) -> cb.and(
-      cb.equal(root.get("_move").get("_site"), source.site()),
-      cb.equal(root.get("_game").get(colour == Colour.WHITE ? "_whitePlayer" : "_blackPlayer"), source.user())
+  public static Predicate matchesSource(final Root<GameMoveEntity> root, final CriteriaBuilder cb, final Source source, final Colour colour) {
+    return cb.and(
+      cb.equal(root.get("_game").get("_site"), source.site()),
+      cb.equal(cb.lower(root.get("_game").get(colour == Colour.WHITE ? "_whitePlayer" : "_blackPlayer")), source.user().toLowerCase())
     );
   }
 

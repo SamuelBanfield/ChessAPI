@@ -32,7 +32,7 @@ public class Shredder {
       if (_gameRepository.existsGameBySource(game.source())) {
         return;
       }
-      GameEntity savedGame = _gameRepository.save(GameEntity.create(game.whitePlayer(), game.blackPlayer(), game.result(), game.source()));
+      GameEntity savedGame = _gameRepository.save(GameEntity.create(game.whitePlayer(), game.blackPlayer(), game.result(), game.source(), game.site()));
       List<MoveEntity> savedMoves = _moveRepository.saveAll(game.moves().stream().map(MoveEntity::create).toList());
       _gameMoveRepository.saveAll(savedMoves.stream().map(move -> GameMoveEntity.create(savedGame, move)).toList());
       shreddedGameCounter.incrementAndGet();

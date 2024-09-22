@@ -35,12 +35,13 @@ public class GameEntity {
   @Column(name = "site")
   private Site _site;
 
-  public static GameEntity create(final String whitePlayer, final String blackPlayer, final GameResult result, final String source) {
+  public static GameEntity create(final String whitePlayer, final String blackPlayer, final GameResult result, final String source, final Site site) {
     GameEntity entity = new GameEntity();
     entity._whitePlayer = whitePlayer;
     entity._blackPlayer = blackPlayer;
     entity._result = result;
     entity.source = source;
+    entity._site = site;
     return entity;
   }
 

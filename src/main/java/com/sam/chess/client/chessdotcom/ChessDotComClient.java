@@ -1,6 +1,7 @@
 package com.sam.chess.client.chessdotcom;
 
 import static com.sam.chess.model.GameResult.fromString;
+import static com.sam.chess.model.Source.Site.CHESSDOTCOM;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class ChessDotComClient implements ChessClient {
       }
     });
     _pgnImporter.run(new ByteArrayInputStream(game.pgn().getBytes(StandardCharsets.UTF_8)));
-    return new ModelGame(game.white().username(), game.black().username(), result[0], modelMoves, game.url());
+    return new ModelGame(game.white().username(), game.black().username(), result[0], modelMoves, game.url(), CHESSDOTCOM);
   }
 
 }

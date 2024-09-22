@@ -3,6 +3,7 @@ package com.sam.chess.client.lichess;
 import static com.sam.chess.model.GameResult.BLACK_WIN;
 import static com.sam.chess.model.GameResult.DRAW;
 import static com.sam.chess.model.GameResult.WHITE_WIN;
+import static com.sam.chess.model.Source.Site.LICHESS;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -55,7 +56,8 @@ public class LichessClient implements ChessClient {
       game.players().black().name(),
       result(game),
       movesFromPGN(game.moves()),
-      "lichess: " + game.id());
+      game.id(),
+      LICHESS);
   }
 
   private List<ModelMove> movesFromPGN(final String movesString) {

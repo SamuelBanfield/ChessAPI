@@ -3,6 +3,7 @@ package com.sam.chess.db.entity;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -11,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 /**
  * Join entity for games and moves.
  */
+@Entity(name = "game_move")
 public class GameMoveEntity {
 
   @Id

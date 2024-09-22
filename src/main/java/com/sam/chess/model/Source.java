@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 public record Source(String user, Site site) {
 
   // Regex matching user@lichess or user@chessdotcom
-  private static final Pattern SOURCE_PATTERN = Pattern.compile("^(?<user>[^@]+)@(?<source>lichess|chessdotcom)$");
+  private static final Pattern SOURCE_PATTERN = Pattern.compile("^(?<user>[^@]+)@(?<site>lichess|chessdotcom)$");
 
   public enum Site {
     LICHESS,
-    CHESS_DOT_COM
+    CHESSDOTCOM
   }
 
   public static Source fromString(String source) {

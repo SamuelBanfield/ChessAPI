@@ -61,13 +61,14 @@ public class PositionController {
     return _chessDotComClient.getGames(userName);
 	}
 
-  @RequestMapping(path = "/", method = GET)
+  @RequestMapping(path = "", method = GET)
   @ResponseBody
   public List<MoveWithFrequency> gamesFromPosition(
     @RequestParam("fen") final String position,
     @RequestParam("colour") final String colourString,
     @RequestParam("sources") final List<String> sourcesRaw
   ) {
+    System.out.println("Fetching games for position " + position + " with colour " + colourString + " and sources " + sourcesRaw);
     final Matcher matcher = GAME_PATTERN.matcher(position);
     if (!matcher.find()) {
       throw new IllegalArgumentException("Invalid FEN: " + position);
@@ -76,8 +77,11 @@ public class PositionController {
     final List<Source> sources = sourcesRaw.stream()
       .map(Source::fromString)
       .toList();
+    if (sources.isEmpty()) {
+      throw new IllegalArgumentException("No sources provided");
+    }
 
-    Map<String, Map<GameResult, List<GameMoveEntity>>> movesWithFrequencies =  _gameMoveRepository.findAll(matchesPosition(matcher.group()).and(matchesSource(sources, colour))).stream()
+    Map<String, Map<GameResult, List<GameMoveEntity>>> movesWithFrequencies =  _gameMoveRepository.findAll(matchesPosition(matcher.group() + "%").and(matchesSource(sources, colour))).stream()
       .collect(Collectors.groupingBy(
         move -> move.getMove().name(),
         Collectors.groupingBy(
