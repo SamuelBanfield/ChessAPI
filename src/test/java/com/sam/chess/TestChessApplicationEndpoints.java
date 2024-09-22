@@ -10,13 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.sam.chess.controller.ImportController;
 import com.sam.chess.model.ModelGame;
 
 @SpringBootTest
 public class TestChessApplicationEndpoints {
 
   @Autowired
-  private ChessApplication _chessApplication;
+  private ImportController _chessApplication;
 
   @Test
   void testLichessImport() throws Exception {

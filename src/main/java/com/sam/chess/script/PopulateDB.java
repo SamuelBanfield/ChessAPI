@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.sam.chess.ChessApplication;
+import com.sam.chess.controller.ImportController;
 
 /**
  * Script to import games from all accounts.
@@ -19,7 +20,7 @@ public class PopulateDB {
 
   public static void main(String[] args) throws Exception {
     ConfigurableApplicationContext context = SpringApplication.run(ChessApplication.class, args);
-    ChessApplication app = context.getBean(ChessApplication.class);
+    ImportController app = context.getBean(ImportController.class);
 
     CHESS_DOT_COM_USERNAMES.forEach(userName -> {
       System.out.println("Importing chess.com games for user: " + userName);
