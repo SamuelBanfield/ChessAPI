@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.ImmutableSet;
 import com.sam.chess.client.ChessClient;
 import com.sam.chess.model.GameResult;
 import com.sam.chess.model.ModelGame;
@@ -25,6 +24,7 @@ import chariot.model.Game;
 import chariot.model.Enums.GameVariant;
 import chariot.model.Enums.PerfType;
 import io.github.wolfraam.chessgame.ChessGame;
+import io.github.wolfraam.chessgame.move.IllegalMoveException;
 import io.github.wolfraam.chessgame.notation.NotationType;
 
 /**
@@ -35,7 +35,6 @@ public class LichessClient implements ChessClient {
   
   private Client _lichess;
 
-  private static final Set<PerfType> PERMITTED_PERF_TYPES = ImmutableSet.of(PerfType.bullet, PerfType.blitz, PerfType.rapid, PerfType.classical);
 
   @Bean
   private static Client client() {
@@ -72,16 +71,22 @@ public class LichessClient implements ChessClient {
   }
 
   private List<ModelMove> movesFromPGN(final String movesString) {
-    List<ModelMove> modelMoves = new ArrayList<>();
-    String[] moves = movesString.split(" ");
-    ChessGame game = new ChessGame();
-    for (String move : moves) {
-      String startingFEN = game.getFen();
-      game.playMove(NotationType.SAN, move);
-      String endingFEN = game.getFen();
-      modelMoves.add(new ModelMove(move, startingFEN, endingFEN));
+    try {
+      List<ModelMove> modelMoves = new ArrayList<>();
+      String[] moves = movesString.split(" ");
+      ChessGame game = new ChessGame();
+      for (String move : moves) {
+        String startingFEN = game.getFen();
+        game.playMove(NotationType.SAN, move);
+        String endingFEN = game.getFen();
+        modelMoves.add(new ModelMove(move, startingFEN, endingFEN));
+      }
+      return modelMoves;
     }
-    return modelMoves;
+    catch (IllegalMoveException e) {
+      System.err.println("Error parsing PGN: " + movesString);
+      return List.of();
+    }
   }
 
   private GameResult result(final Game game) {
