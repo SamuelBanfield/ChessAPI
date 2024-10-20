@@ -8,11 +8,13 @@ import static com.sam.chess.model.Source.Site.LICHESS;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.ImmutableSet;
 import com.sam.chess.client.ChessClient;
 import com.sam.chess.model.GameResult;
 import com.sam.chess.model.ModelGame;
@@ -20,6 +22,8 @@ import com.sam.chess.model.ModelMove;
 
 import chariot.Client;
 import chariot.model.Game;
+import chariot.model.Enums.GameVariant;
+import chariot.model.Enums.PerfType;
 import io.github.wolfraam.chessgame.ChessGame;
 import io.github.wolfraam.chessgame.notation.NotationType;
 
@@ -30,6 +34,8 @@ import io.github.wolfraam.chessgame.notation.NotationType;
 public class LichessClient implements ChessClient {
   
   private Client _lichess;
+
+  private static final Set<PerfType> PERMITTED_PERF_TYPES = ImmutableSet.of(PerfType.bullet, PerfType.blitz, PerfType.rapid, PerfType.classical);
 
   @Bean
   private static Client client() {
@@ -44,8 +50,13 @@ public class LichessClient implements ChessClient {
   @Override
   public List<ModelGame> getGames(final String userId) {
     return _lichess.games()
-      .byUserId(userId, filter -> filter.until(ZonedDateTime.now()).max(200))
+      .byUserId(userId, filter -> filter
+        .perfType(PerfType.bullet, PerfType.blitz, PerfType.rapid, PerfType.classical)
+        .until(ZonedDateTime.now())
+        .max(200)
+      )
       .stream()
+      .filter(game -> game.variant().equals(GameVariant.standard))
       .map(this::toChessGame)
       .toList();
   }
