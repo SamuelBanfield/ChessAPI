@@ -78,7 +78,7 @@ public class PositionController {
       .map(Source::fromString)
       .toList();
     if (sources.isEmpty()) {
-      throw new IllegalArgumentException("No sources provided");
+      return emptyList();
     }
 
     Map<String, Map<GameResult, List<GameMoveEntity>>> movesWithFrequencies =  _gameMoveRepository.findAll(matchesPosition(matcher.group() + "%").and(matchesSource(sources, colour))).stream()
