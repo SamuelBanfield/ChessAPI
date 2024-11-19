@@ -22,24 +22,21 @@ public class ChessDotComHTTPClient {
 
     public HttpResponse<String> getGamesFromArchive(final String archiveURL) throws IOException, InterruptedException {
         HttpResponse<String> response = get(archiveURL);
-        if (response.statusCode() != 200) {
-            throw new IOException("Failed to get games from archive: " + response.body());
-        }
         return response;
     }
 
     private HttpResponse<String> get(final String url) throws IOException, InterruptedException {
-        return _client.send(
+       HttpResponse<String> response = _client.send(
             HttpRequest.newBuilder().GET()
                 .uri(URI.create(url))
                 .header("User-Agent", "Java Chess API / 1.0")
                 .build(),
             HttpResponse.BodyHandlers.ofString()
         );
+        return response;
     }
 
     private static String archivesAvailableURL(final String userId) {
-        // TODO: make this safer
         return "https://api.chess.com/pub/player/" + userId + "/games/archives";
     }
 

@@ -5,11 +5,14 @@ import static com.sam.chess.model.Source.Site.CHESSDOTCOM;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,11 +61,20 @@ public class ChessDotComClient implements ChessClient {
   }
 
   private List<String> parseArchives(final String userId) throws IOException, InterruptedException {
-    return _objectMapper.readValue(_client.getArchivesAvailable(userId).body(), ArchivesAvailableResponse.class).archives();
+    HttpResponse<String> rawResponse = _client.getArchivesAvailable(userId);
+    if (rawResponse.statusCode() != 200) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(rawResponse.statusCode()));
+    }
+    ArchivesAvailableResponse response = _objectMapper.readValue(rawResponse.body(), ArchivesAvailableResponse.class);
+    return response.archives();
   }
 
   private List<ModelGame> parseGames(final String archive) throws IOException, InterruptedException {
-    return _objectMapper.readValue(_client.getGamesFromArchive(archive).body(), ArchiveResponse.class).games()
+    HttpResponse<String> rawResponse = _client.getGamesFromArchive(archive);
+    if (rawResponse.statusCode() != 200) {
+      throw new ResponseStatusException(HttpStatusCode.valueOf(rawResponse.statusCode()));
+    }
+    return _objectMapper.readValue(rawResponse.body(), ArchiveResponse.class).games()
       .stream()
       .map(this::parseGame)
       .toList();

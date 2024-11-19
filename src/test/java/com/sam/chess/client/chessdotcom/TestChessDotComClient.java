@@ -4,6 +4,7 @@ import static com.sam.chess.model.GameResult.BLACK_WIN;
 import static com.sam.chess.model.GameResult.DRAW;
 import static com.sam.chess.model.GameResult.WHITE_WIN;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.sam.chess.model.ModelGame;
 
@@ -35,10 +37,12 @@ public class TestChessDotComClient {
     void testChessDotComClient() throws IOException, InterruptedException {
         HttpResponse<String> archivesResponse = mock(HttpResponse.class);
         when(archivesResponse.body()).thenReturn(new String(getClass().getResourceAsStream("archives.json").readAllBytes()));
+        when(archivesResponse.statusCode()).thenReturn(200);
         when(_httpClient.getArchivesAvailable("tfdethh")).thenReturn(archivesResponse);
 
         HttpResponse<String> gamesResponse = mock(HttpResponse.class);
         when(gamesResponse.body()).thenReturn(new String(getClass().getResourceAsStream("games_2020_07.json").readAllBytes()));
+        when(gamesResponse.statusCode()).thenReturn(200);
         when(_httpClient.getGamesFromArchive("https://api.chess.com/pub/player/tfdethh/games/2020/07")).thenReturn(gamesResponse);
 
         List<ModelGame> games = _chessDotComClient.getGames("tfdethh");
@@ -47,6 +51,16 @@ public class TestChessDotComClient {
         assertEquals(109, games.stream().filter(game -> WHITE_WIN.equals(game.result())).count());
         assertEquals(9, games.stream().filter(game -> DRAW.equals(game.result())).count());
         assertEquals(125, games.stream().filter(game -> BLACK_WIN.equals(game.result())).count());
+    }
+
+    @Test
+    void testMissingPlayer() throws Exception {
+        HttpResponse<String> archivesResponse = mock(HttpResponse.class);
+        when(archivesResponse.body()).thenReturn("{\"code\":0,\"message\":\"User \\\"zdfgsdfgds\\\" not found.\"}");
+        when(archivesResponse.statusCode()).thenReturn(404);
+
+        ResponseStatusException e = assertThrows(ResponseStatusException.class, () -> _chessDotComClient.getGames("zdfgsdfgds"));
+        assertEquals("User zdfgsdfgds not foundd", e.getMessage());
     }
 
 }
