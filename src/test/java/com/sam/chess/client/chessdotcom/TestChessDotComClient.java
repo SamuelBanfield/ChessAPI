@@ -58,9 +58,10 @@ public class TestChessDotComClient {
         HttpResponse<String> archivesResponse = mock(HttpResponse.class);
         when(archivesResponse.body()).thenReturn("{\"code\":0,\"message\":\"User \\\"zdfgsdfgds\\\" not found.\"}");
         when(archivesResponse.statusCode()).thenReturn(404);
+        when(_httpClient.getArchivesAvailable("zdfgsdfgds")).thenReturn(archivesResponse);
 
         ResponseStatusException e = assertThrows(ResponseStatusException.class, () -> _chessDotComClient.getGames("zdfgsdfgds"));
-        assertEquals("User zdfgsdfgds not foundd", e.getMessage());
+        assertEquals("404 NOT_FOUND", e.getMessage());
     }
 
 }
