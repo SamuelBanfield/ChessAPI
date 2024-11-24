@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: "2"
+      author:  sam
+      changes:
+        - createTable:
+            tableName: position_note
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                     primaryKey: true
+                     nullable: false
+              - column:
+                  name: note
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: varchar
+                  constraints:
+                    nullable: false
