@@ -19,7 +19,7 @@ public class PositionNoteEntity {
   private String _note;
   
   // Underscore missing for JPARepository compatibility
-  @Column(name = "fen")
+  @Column(name = "position")
   private String fen;
 
   public static PositionNoteEntity create(final String note, final String fen) {
@@ -31,6 +31,11 @@ public class PositionNoteEntity {
 
   public String note() {
     return _note;
+  }
+
+  public PositionNoteEntity withNote(final String note) {
+    _note = note;
+    return this;
   }
 
 }

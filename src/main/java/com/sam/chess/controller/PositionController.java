@@ -37,7 +37,7 @@ import com.sam.chess.model.Source;
 public class PositionController {
 
   // Regex matching the important features of a FEN
-  private static final Pattern GAME_PATTERN = Pattern.compile("([rnbqkpRNBQKP1-8]+/){7}[rnbqkpRNBQKP1-8]+ [wb]");
+  static final Pattern GAME_PATTERN = Pattern.compile("([rnbqkpRNBQKP1-8]+/){7}[rnbqkpRNBQKP1-8]+ [wb]");
 
   record MoveWithFrequency(ModelMove move, int whiteWins, int draws, int blackWins) {};
 
