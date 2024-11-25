@@ -2,6 +2,8 @@ package com.sam.chess.db.entity;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import com.sam.chess.model.PositionNote;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,8 +31,8 @@ public class PositionNoteEntity {
     return entity;
   }
 
-  public String note() {
-    return _note;
+  public PositionNote note() {
+    return new PositionNote(_note);
   }
 
   public PositionNoteEntity withNote(final String note) {

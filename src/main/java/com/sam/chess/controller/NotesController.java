@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sam.chess.db.entity.PositionNoteEntity;
 import com.sam.chess.db.entity.PositionNoteRepository;
+import com.sam.chess.model.PositionNote;
 
 @RestController
 @RequestMapping("/note")
@@ -24,18 +25,18 @@ public class NotesController {
 	private PositionNoteRepository _positionNoteRepository;
 
 	@RequestMapping(path = "", method = GET)
-	public String getNote(
+	public PositionNote getNote(
 		@RequestParam("fen") final String position
 	) {
 		System.out.println("Fetching note for " + position);
 		Optional<PositionNoteEntity> note = _positionNoteRepository.findOneByfen(parseFen(position));
 	
-    return note.map(PositionNoteEntity::note).orElse(null);
+    return note.map(PositionNoteEntity::note).orElse(PositionNote.EMPTY);
 	}
 
 	@RequestMapping(path = "", method = POST)
   @ResponseBody
-  public boolean upsertNote(	
+  public PositionNote upsertNote(	
 		@RequestParam("fen") final String position,
 		@RequestParam("note") final String note
 	) {
@@ -44,8 +45,7 @@ public class NotesController {
 		final PositionNoteEntity noteEntity = _positionNoteRepository.findOneByfen(fen)
 			.map(current -> current.withNote(note))
 			.orElseGet(() -> PositionNoteEntity.create(note, fen));
-		_positionNoteRepository.save(noteEntity);
-    return true;
+		return _positionNoteRepository.save(noteEntity).note();
 	}
 
 	private static String parseFen(final String rawPosition) {
