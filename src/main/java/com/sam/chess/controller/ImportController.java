@@ -21,23 +21,23 @@ public class ImportController {
 	private LichessClient _lichessClient;
 	@Autowired
 	private ChessDotComClient _chessDotComClient;
-  @Autowired
-  private Shredder _shredder;
+	@Autowired
+	private Shredder _shredder;
 
-	@RequestMapping(path = "lichess/{userName}", method = POST)
+	@RequestMapping(path = "/lichess/{userName}", method = POST)
 	public int importLichessGames(@PathVariable("userName") final String userName) {
-    System.out.println("Importing lichess games for user " + userName);
+		System.out.println("Importing lichess games for user " + userName);
 		int total = _shredder.shred(_lichessClient.getGames(userName));
-    System.out.println("Imported " + total + " games for user " + userName);
-    return total;
+		System.out.println("Imported " + total + " games for user " + userName);
+		return total;
 	}
 
 	@RequestMapping(path = "/chessdotcom/{userName}", method = POST)
 	public int importChessDotComGames(@PathVariable("userName") final String userName) throws IOException, InterruptedException {
 		System.out.println("Importing chess.com games for user " + userName);
-    int total = _shredder.shred(_chessDotComClient.getGames(userName));
-    System.out.println("Imported " + total + " games for user " + userName);
-    return total;
+		int total = _shredder.shred(_chessDotComClient.getGames(userName));
+		System.out.println("Imported " + total + " games for user " + userName);
+		return total;
 	}
 
 }

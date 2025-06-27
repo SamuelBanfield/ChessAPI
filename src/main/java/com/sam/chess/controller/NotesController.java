@@ -31,12 +31,12 @@ public class NotesController {
 		System.out.println("Fetching note for " + position);
 		Optional<PositionNoteEntity> note = _positionNoteRepository.findOneByfen(parseFen(position));
 	
-    return note.map(PositionNoteEntity::note).orElse(PositionNote.EMPTY);
+		return note.map(PositionNoteEntity::note).orElse(PositionNote.EMPTY);
 	}
 
 	@RequestMapping(path = "", method = POST)
-  @ResponseBody
-  public PositionNote upsertNote(	
+	@ResponseBody
+	public PositionNote upsertNote(    
 		@RequestParam("fen") final String position,
 		@RequestParam("note") final String note
 	) {
@@ -50,9 +50,9 @@ public class NotesController {
 
 	private static String parseFen(final String rawPosition) {
 		final Matcher matcher = GAME_PATTERN.matcher(rawPosition);
-    if (!matcher.find()) {
-      throw new IllegalArgumentException("Invalid FEN: " + rawPosition);
-    }
+		if (!matcher.find()) {
+			throw new IllegalArgumentException("Invalid FEN: " + rawPosition);
+		}
 		return matcher.group();
 	}
 }

@@ -13,8 +13,6 @@ psql -U postgres -h localhost
 
 Todo:
 
-* Display white/black games separately
-* Filter games by user, with UI to select users
 * Fix hardcoded db creds
 * Handle incorrect username and other errors on import
 * Display progress of import

@@ -1,0 +1,19 @@
+@startuml
+skinparam linetype ortho
+actor User
+rectangle "User interface" as UI
+rectangle "Spring Boot backend" as API
+rectangle PostgreSQL
+
+package "External APIs" as External {
+    rectangle Lichess
+    rectangle "Chess.com" as Chesscom
+}
+
+User --> UI
+UI --> API: REST API
+API --> PostgreSQL: Notes data
+API --> PostgreSQL: Cache
+API --> External
+
+@enduml

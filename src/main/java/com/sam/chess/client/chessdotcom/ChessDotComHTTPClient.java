@@ -37,7 +37,9 @@ public class ChessDotComHTTPClient {
     }
 
     private static String archivesAvailableURL(final String userId) {
-        return "https://api.chess.com/pub/player/" + userId + "/games/archives";
+        return URI.create("https://api.chess.com/pub/player/")
+                .resolve(userId + "/games/archives")
+                .toString();
     }
 
 }

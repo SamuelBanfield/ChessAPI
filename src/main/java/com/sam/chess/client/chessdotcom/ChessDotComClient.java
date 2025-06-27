@@ -68,7 +68,7 @@ public class ChessDotComClient implements ChessClient {
     ArchivesAvailableResponse response = _objectMapper.readValue(rawResponse.body(), ArchivesAvailableResponse.class);
     return response.archives();
   }
-
+  
   private List<ModelGame> parseGames(final String archive) throws IOException, InterruptedException {
     HttpResponse<String> rawResponse = _client.getGamesFromArchive(archive);
     if (rawResponse.statusCode() != 200) {
